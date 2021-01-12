@@ -1,0 +1,11 @@
+
+enum34==1.1.6
+numpy==1.14.5
+psutil==5.4.6
+requests==2.18.4
+six==1.11.0
+torch==1.7.0
+pymysql==0.10.0
+pexpect==4.8.0
+
+

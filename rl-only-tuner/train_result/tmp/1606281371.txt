@@ -1,0 +1,19 @@
+sysbench 1.0.19 (using bundled LuaJIT 2.1.0-beta2)
+
+Running the test with following options:
+Number of threads: 8
+Report intermediate results every 10 second(s)
+Initializing random number generator from current time
+
+
+Initializing worker threads...
+
+Threads started!
+
+[ 10s ] thds: 8 tps: 2457.56 qps: 39327.50 (r/w/o: 34411.59/0.00/4915.91) lat (ms,95%): 4.57 err/s: 0.00 reconn/s: 0.00
+[ 20s ] thds: 8 tps: 2203.29 qps: 35253.00 (r/w/o: 30846.42/0.00/4406.57) lat (ms,95%): 5.47 err/s: 0.00 reconn/s: 0.00
+[ 30s ] thds: 8 tps: 2191.46 qps: 35063.30 (r/w/o: 30680.37/0.00/4382.92) lat (ms,95%): 5.47 err/s: 0.00 reconn/s: 0.00
+[ 40s ] thds: 8 tps: 2269.39 qps: 36309.91 (r/w/o: 31771.12/0.00/4538.79) lat (ms,95%): 5.28 err/s: 0.00 reconn/s: 0.00
+[ 50s ] thds: 8 tps: 2334.27 qps: 37349.85 (r/w/o: 32681.32/0.00/4668.53) lat (ms,95%): 4.91 err/s: 0.00 reconn/s: 0.00
+[ 60s ] thds: 8 tps: 2238.08 qps: 35809.42 (r/w/o: 31333.27/0.00/4476.15) lat (ms,95%): 5.18 err/s: 0.00 reconn/s: 0.00
+[ 70s ] thds: 8 tps: 2189.23 qps: 35024.70 (r/w/o: 30646.25/0.00/4378.45) lat (ms,95%): 5.28 err/s: 0.00 reconn/s: 0.00

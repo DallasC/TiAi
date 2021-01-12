@@ -1,0 +1,35 @@
+sysbench 1.0.19 (using bundled LuaJIT 2.1.0-beta2)
+
+Running the test with following options:
+Number of threads: 8
+Report intermediate results every 10 second(s)
+Initializing random number generator from current time
+
+
+Initializing worker threads...
+
+FATAL: mysql_stmt_prepare() failed
+FATAL: MySQL error: 1146 "Table 'sysbench_test.sbtest1' doesn't exist"
+FATAL: mysql_stmt_prepare() failed
+FATAL: `thread_init' function failed: ...al/Cellar/sysbench/1.0.19/share/sysbench/oltp_common.lua:284: SQL API error
+FATAL: MySQL error: 1146 "Table 'sysbench_test.sbtest1' doesn't exist"
+FATAL: mysql_stmt_prepare() failed
+FATAL: mysql_stmt_prepare() failed
+FATAL: MySQL error: 1146 "Table 'sysbench_test.sbtest1' doesn't exist"
+FATAL: `thread_init' function failed: ...al/Cellar/sysbench/1.0.19/share/sysbench/oltp_common.lua:284: SQL API error
+(last message repeated 1 times)
+FATAL: `thread_init' function failed: ...al/Cellar/sysbench/1.0.19/share/sysbench/oltp_common.lua:284: SQL API error
+(last message repeated 1 times)
+FATAL: mysql_stmt_prepare() failed
+(last message repeated 1 times)
+FATAL: MySQL error: 1146 "Table 'sysbench_test.sbtest1' doesn't exist"
+(last message repeated 1 times)
+FATAL: mysql_stmt_prepare() failed
+FATAL: `thread_init' function failed: ...al/Cellar/sysbench/1.0.19/share/sysbench/oltp_common.lua:284: SQL API error
+(last message repeated 1 times)
+FATAL: mysql_stmt_prepare() failed
+FATAL: MySQL error: 1146 "Table 'sysbench_test.sbtest1' doesn't exist"
+(last message repeated 1 times)
+FATAL: `thread_init' function failed: ...al/Cellar/sysbench/1.0.19/share/sysbench/oltp_common.lua:284: SQL API error
+(last message repeated 1 times)
+FATAL: Thread initialization failed!

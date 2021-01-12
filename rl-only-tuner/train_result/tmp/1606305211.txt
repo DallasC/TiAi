@@ -1,0 +1,23 @@
+sysbench 1.0.19 (using bundled LuaJIT 2.1.0-beta2)
+
+Running the test with following options:
+Number of threads: 8
+Report intermediate results every 10 second(s)
+Initializing random number generator from current time
+
+
+Initializing worker threads...
+
+Threads started!
+
+[ 10s ] thds: 8 tps: 957.52 qps: 19159.03 (r/w/o: 13412.73/3830.47/1915.83) lat (ms,95%): 19.65 err/s: 0.00 reconn/s: 0.00
+[ 20s ] thds: 8 tps: 1113.09 qps: 22260.41 (r/w/o: 15582.20/4452.14/2226.07) lat (ms,95%): 13.95 err/s: 0.00 reconn/s: 0.00
+[ 30s ] thds: 8 tps: 987.33 qps: 19748.15 (r/w/o: 13823.76/3949.73/1974.67) lat (ms,95%): 16.12 err/s: 0.00 reconn/s: 0.00
+[ 40s ] thds: 8 tps: 1346.12 qps: 26919.08 (r/w/o: 18842.67/5384.08/2692.34) lat (ms,95%): 9.39 err/s: 0.00 reconn/s: 0.00
+[ 50s ] thds: 8 tps: 1373.39 qps: 27470.37 (r/w/o: 19230.21/5493.37/2746.79) lat (ms,95%): 9.73 err/s: 0.00 reconn/s: 0.00
+[ 60s ] thds: 8 tps: 1378.87 qps: 27577.10 (r/w/o: 19303.35/5515.90/2757.85) lat (ms,95%): 9.39 err/s: 0.00 reconn/s: 0.00
+[ 70s ] thds: 8 tps: 1182.28 qps: 23647.38 (r/w/o: 16553.88/4729.04/2364.47) lat (ms,95%): 10.84 err/s: 0.00 reconn/s: 0.00
+[ 80s ] thds: 8 tps: 997.51 qps: 19946.75 (r/w/o: 13962.01/3989.73/1995.02) lat (ms,95%): 18.61 err/s: 0.00 reconn/s: 0.00
+[ 90s ] thds: 8 tps: 1142.00 qps: 22841.20 (r/w/o: 15988.67/4568.52/2284.01) lat (ms,95%): 15.00 err/s: 0.00 reconn/s: 0.00
+[ 100s ] thds: 8 tps: 1228.35 qps: 24569.12 (r/w/o: 17199.21/4913.30/2456.60) lat (ms,95%): 9.73 err/s: 0.00 reconn/s: 0.00
+[ 110s ] thds: 8 tps: 1214.99 qps: 24301.27 (r/w/o: 17010.74/4860.45/2430.08) lat (ms,95%): 10.46 err/s: 0.00 reconn/s: 0.00
