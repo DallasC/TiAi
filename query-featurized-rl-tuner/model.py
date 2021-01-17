@@ -6,7 +6,7 @@ import time
 from collections import deque
 import numpy as np
 import random
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 import pandas
 
 import pymysql
@@ -20,12 +20,15 @@ from keras.models import Sequential, Model
 from keras.layers import Dense, Dropout, Input
 from keras.layers.merge import Add, Multiply
 from keras.optimizers import Adam
-import keras.backend as K
+from tensorflow.compat.v1.keras import backend as K
 from keras.layers.normalization import BatchNormalization
 from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.preprocessing import StandardScaler
 
+tf.compat.v1.disable_eager_execution()
 
+a_low = np.array([1, 1, 1, 1, 500, 1, 1, 500, 1, 1, 1, 1, 32, 0, 0])
+a_high = np.array([32, 32, 32, 32, 100000, 32, 32, 100000, 32, 32, 32, 32, 10000, 100, 1])
 def target_range(x, target_min=a_low, target_max=a_high):
     x02 = K.tanh(x) + 1  # x in range(0,2)
     scale = (target_max - target_min) / 2.
@@ -104,7 +107,7 @@ class ActorCritic:
         # add a dense-tanh expend the space!!
         output = Dense(self.env.action_space.shape[0], activation=target_range)(d1)
 
-        model = Model(input=state_input, output=output)
+        model = Model(inputs=state_input, outputs=output)
         adam = Adam(lr=0.001)
         model.compile(loss="mse", optimizer=adam)
         return state_input, model
@@ -126,7 +129,7 @@ class ActorCritic:
         n1 = BatchNormalization()(d1)
         output = Dense(1)(n1)
 
-        model = Model(input=[state_input, action_input], output=output)
+        model = Model(inputs=[state_input, action_input], outputs=output)
 
         adam = Adam(lr=0.001)
         model.compile(loss="mse", optimizer=adam)

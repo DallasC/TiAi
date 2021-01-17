@@ -57,10 +57,11 @@ class SqlParser:
     def __init__(self, cur_op='oltp_read_write.lua', num_event=1000, p_r_range=0.6, p_u_index=0.2, p_i=0.1, p_d=0.1):
 
         # sysbench: single table operations
-        self.cmd = "sysbench --test=oltp --oltp-table-size=5000 " + " --num-threads=5 --max-requests=" + str(
-            num_event) + " --mysql-host=127.0.0.1 --mysql-user='root' --mysql-password='db2019' --mysql-port=3306 --db-ps-mode=disable --mysql-db='test' \
-                  --oltp-simple-ranges=" + str(int(num_event * p_r_range)) + " --oltp-index-updates=" + str(int(num_event * p_u_index))
+        # self.cmd = "sysbench --test=oltp --oltp-table-size=5000 " + " --num-threads=5 --max-requests=" + str(
+        #    num_event) + " --mysql-host=127.0.0.1 --mysql-user='root' --mysql-password='db2019' --mysql-port=3306 --db-ps-mode=disable --mysql-db='test' \
+        #          --oltp-simple-ranges=" + str(int(num_event * p_r_range)) + " --oltp-index-updates=" + str(int(num_event * p_u_index))
 
+        self.cmd = "sysbench --oltp-table-size=5000 --threads=5 --events=" + str(num_event) + " --mysql-host=127.0.0.1 --mysql-user='root' --mysql-password='' --mysql-port=4000 --db-ps-mode=disable --mysql-db='test' --oltp-simple-ranges=" +  str(int(num_event * p_r_range)) + " --oltp-index-updates="+ str(int(num_event * p_u_index)) + " /usr/share/sysbench/tests/include/oltp_legacy/oltp.lua"
         # join: do join among imdb tables
         self.join_cmd = ''
 
@@ -101,42 +102,42 @@ class SqlParser:
 
         # Create the sql convert model
         # Fetch the data
-        fs = open("trainData_sql.txt", 'r')
-        df = pandas.read_csv(fs, sep=' ', header=None)
-        lt_sql = df.values
+        # fs = open("trainData_sql.txt", 'r')
+        # df = pandas.read_csv(fs, sep=' ', header=None)
+        # lt_sql = df.values
         # seperate into input X and output Y
-        sql_op = lt_sql[:, 0]
-        sql_X = lt_sql[:, 1:5]  # op_type   events  table_size
-        sql_Y = lt_sql[:, 5:]
-        print(sql_Y[0])
+        #sql_op = lt_sql[:, 0]
+        #sql_X = lt_sql[:, 1:5]  # op_type   events  table_size
+        #sql_Y = lt_sql[:, 5:]
+        #print(sql_Y[0])
 
-        for i, s in enumerate(sql_op):
-            s = s + 1
-            sql_X[i][0] = sql_X[i][0] * s
-            sql_X[i][1] = sql_X[i][1] * s
-            sql_X[i][2] = sql_X[i][2] * s
-            sql_X[i][3] = sql_X[i][3] * s
+        #for i, s in enumerate(sql_op):
+        #    s = s + 1
+        #    sql_X[i][0] = sql_X[i][0] * s
+        #    sql_X[i][1] = sql_X[i][1] * s
+        #    sql_X[i][2] = sql_X[i][2] * s
+        #    sql_X[i][3] = sql_X[i][3] * s
 
 
-        sc_X = StandardScaler()
-        X_train = sc_X.fit_transform(sql_X)
+        #sc_X = StandardScaler()
+        #X_train = sc_X.fit_transform(sql_X)
         # X_test = X_train[50:]
         # X_train = X_train[:50]
 
-        sc_Y = StandardScaler()
-        Y_train = sc_Y.fit_transform(sql_Y)
-        Y_test = Y_train[50:]
+        #sc_Y = StandardScaler()
+        #Y_train = sc_Y.fit_transform(sql_Y)
+        #Y_test = Y_train[50:]
         # Y_train = Y_train[:50]
 
         # Create the sql convert model
         # evaluate model with standardized dataset
-        seed = 7
-        np.random.seed(seed)
+        #seed = 7
+        #np.random.seed(seed)
         # estimators = []
         # estimators.append(('standardize', StandardScaler()))
         # estimators.append(('mlp', KerasRegressor(build_fn=baseline_model, epochs=50, batch_size=50, verbose=0)))
-        self.estimator = KerasRegressor(build_fn=baseline_model, epochs=1000, batch_size=50, verbose=1)  # epochs
-        self.estimator.fit(X_train, Y_train)
+        #self.estimator = KerasRegressor(build_fn=baseline_model, epochs=1000, batch_size=50, verbose=1)  # epochs
+        #self.estimator.fit(X_train, Y_train)
 
     def predict_sql_resource(self):
         # Predict sql convert

@@ -16,7 +16,7 @@ from sql2resource import SqlParser
 
 class Database:
     def __init__(self):
-        self.connection = pymysql.connect(host='localhost',
+        self.connection = pymysql.connect(host='127.0.0.1',
                                           port=4000,
                                           user='root',
                                           password='',
@@ -26,7 +26,7 @@ class Database:
         self.external_metric_num = 2  # [throughput, latency]
         self.internal_metric_num = 57  # 57 for tidb%count metrics, 110 for tidb%count AND tikv%count
 
-        self.var_names = ["tidb_distsql_scan_concurrency", "tidb_hash_join_concurrency", "tidb_hashagg_final_concurrency", "tidb_hashagg_partial_concurrency", "tidb_index_join_batch_size", "tidb_index_lookup_concurrency", "tidb_index_lookup_join_concurrency", "tidb_index_lookup_size", "tidb_index_serial_scan_concurrency", "tidb_projection_concurrency", "tidb_window_concurrency", "tidb_union_concurrency", "tidb_init_chunk_size", "tidb_max_chunk_size", "tidb_opt_correlation_exp_factor", "tidb_opt_insubq_to_join_and_agg"]  # 16 dynamic variables
+        self.var_names = ["tidb_distsql_scan_concurrency", "tidb_hash_join_concurrency", "tidb_hashagg_final_concurrency", "tidb_hashagg_partial_concurrency", "tidb_index_join_batch_size", "tidb_index_lookup_concurrency", "tidb_index_lookup_join_concurrency", "tidb_index_lookup_size", "tidb_index_serial_scan_concurrency", "tidb_projection_concurrency", "tidb_window_concurrency", "tidb_init_chunk_size", "tidb_max_chunk_size", "tidb_opt_correlation_exp_factor", "tidb_opt_insubq_to_join_and_agg"]  # 16 dynamic variables
 
         self.knob_num = len(self.var_names)
 
@@ -48,7 +48,7 @@ class Database:
     def fetch_knob(self):
         with self.connection.cursor() as cursor:
             # @@tidb_opt_agg_push_down, tidb_opt_distinct_agg_push_down # Are both Session only variables not global
-            sql = "select @@tidb_distsql_scan_concurrency, @@tidb_hash_join_concurrency, @@tidb_hashagg_final_concurrency, @@tidb_hashagg_partial_concurrency, @@tidb_index_join_batch_size, @@tidb_index_lookup_concurrency, @@tidb_index_lookup_join_concurrency, @@tidb_index_lookup_size, @@tidb_index_serial_scan_concurrency, @@tidb_projection_concurrency, @@tidb_window_concurrency, @@tidb_union_concurrency, @@tidb_init_chunk_size, @@tidb_max_chunk_size, @@tidb_opt_correlation_exp_factor, @@tidb_opt_insubq_to_join_and_agg"
+            sql = "select @@tidb_distsql_scan_concurrency, @@tidb_hash_join_concurrency, @@tidb_hashagg_final_concurrency, @@tidb_hashagg_partial_concurrency, @@tidb_index_join_batch_size, @@tidb_index_lookup_concurrency, @@tidb_index_lookup_join_concurrency, @@tidb_index_lookup_size, @@tidb_index_serial_scan_concurrency, @@tidb_projection_concurrency, @@tidb_window_concurrency, @@tidb_init_chunk_size, @@tidb_max_chunk_size, @@tidb_opt_correlation_exp_factor, @@tidb_opt_insubq_to_join_and_agg"
 
             cursor.execute(sql)
             result = cursor.fetchall()
@@ -111,8 +111,8 @@ o_high = np.array(
      -10000000000, -10000000000
      ])
 
-a_low = np.array([1, 1, 1, 1, 500, 1, 1, 500, 1, 1, 1, 1, 1, 32, 0, 0])
-a_high = np.array([32, 32, 32, 32, 100000, 32, 32, 100000, 32, 32, 32, 32, 32, 10000, 100, 1])
+a_low = np.array([1, 1, 1, 1, 500, 1, 1, 500, 1, 1, 1, 1, 32, 0, 0])
+a_high = np.array([32, 32, 32, 32, 100000, 32, 32, 100000, 32, 32, 32, 32, 10000, 100, 1])
 
 # Define the environment
 class Environment(gym.Env):
@@ -135,7 +135,7 @@ class Environment(gym.Env):
         self.observation_space = spaces.Box(low=self.o_low, high=self.o_high, dtype=np.float32)
         self.state = db.fetch_internal_metrics()
         # print("Concatenated state:")
-        self.state = np.append(self.parser.predict_sql_resource(), self.state)
+        # self.state = np.append(self.parser.predict_sql_resource(), self.state)
         print(self.state)
 
         # action_space
@@ -150,14 +150,10 @@ class Environment(gym.Env):
         # exclude
         # innodb_file_per_table, skip_name_resolve, binlog_checksum,
         # binlog_format(dynamic, [ROW, STATEMENT, MIXED]),
-        '''
-        a_low = np.array([      1,     1,  5242880, 1, 2,    1048576,0, 1, 1,      4096,      4096])
-        a_high = np.array([524288,100000,  2**32-1,64,100,4000000000,1,64,64,1073741824,4294967295])
-        '''
 
         self.a_low = a_low
         self.a_high = a_high
-        self.action_space = spaces.Box(low=self.a_low, high=self.a_high, dtype=np.float32)
+        self.action_space = spaces.Box(low=self.a_low, high=self.a_high, dtype=np.int32)
         self.default_action = self.a_low
 
         self.mem = deque(maxlen=argus['maxlen_mem'])  # [throughput, latency]
@@ -187,6 +183,8 @@ class Environment(gym.Env):
 
     # new_state, reward, done,
     def step(self, u, isPredicted, iteration):
+        print(u)
+        u = u.astype(np.int)
         self.db.change_knob_nonrestart(u)
         # 1 run sysbench
         # primary key lookup
@@ -274,5 +272,5 @@ class Environment(gym.Env):
 
     def _get_obs(self):
         self.state = self.db.fetch_internal_metrics()
-        self.state = np.append(self.parser.predict_sql_resource(), self.state)
+        # self.state = np.append(self.parser.predict_sql_resource(), self.state)
         return self.state

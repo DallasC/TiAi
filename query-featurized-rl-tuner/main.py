@@ -1,8 +1,7 @@
 import sys
 import numpy as np
-import tensorflow as tf
-
-import keras.backend as K
+import tensorflow.compat.v1 as tf
+from tensorflow.compat.v1.keras import backend as K
 
 from environment import Database, Environment
 from model import ActorCritic
